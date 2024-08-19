@@ -82,7 +82,7 @@ export const prompt = (nodes: Node[], edges: Edge[]) => {
           account_json;
         const edge = accountEdges.find((edge) => edge.target === account.id);
         if (edge) {
-          account_text += '; the seed is ' + edge.data.label;
+          account_text += '; the seed is ' + edge.data?.label;
         }
         all_account_text += account_text + '\n';
       });
@@ -107,7 +107,6 @@ export const prompt = (nodes: Node[], edges: Edge[]) => {
         all_instruction_text += instruction_text + '\n';
       });
     }
-    console.log('all_account_text', all_account_text);
     all_text +=
       textGenerator(
         program_data.getName(),

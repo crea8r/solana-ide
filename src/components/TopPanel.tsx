@@ -26,7 +26,7 @@ const TopPanel: React.FC<TopPanelProps> = ({ generatePrompt }) => {
     >
       <Flex>
         <Menu>
-          <MenuButton as={Button} mr={2}>
+          <MenuButton as={Button} mr={2} isDisabled={true} title='Coming soon'>
             File
           </MenuButton>
           <MenuList>
@@ -37,7 +37,9 @@ const TopPanel: React.FC<TopPanelProps> = ({ generatePrompt }) => {
           </MenuList>
         </Menu>
         <Menu>
-          <MenuButton as={Button}>Edit</MenuButton>
+          <MenuButton as={Button} isDisabled={true} title='Coming soon'>
+            Edit
+          </MenuButton>
           <MenuList>
             <MenuItem onClick={() => console.log('Save')}>Save</MenuItem>
             <MenuItem onClick={() => console.log('Edit')}>Edit</MenuItem>

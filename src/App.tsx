@@ -1,8 +1,8 @@
 // src/App.tsx
 
 import { v4 as uuidv4 } from 'uuid';
-import React, { useState, useCallback } from 'react';
-import { ChakraProvider, Flex } from '@chakra-ui/react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Button, ChakraProvider, Flex } from '@chakra-ui/react';
 import {
   Node,
   Edge,
@@ -19,6 +19,8 @@ import PropertyPanel from './components/PropertyPanel';
 import { ToolboxItem } from './interfaces/ToolboxItem';
 import { prompt } from './utils/promptFactory';
 import PromptModal from './components/PromptModal';
+import WalkthroughDialog from './components/WalkthroughDialog';
+import { FaQuestion } from 'react-icons/fa';
 
 const App: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -27,6 +29,7 @@ const App: React.FC = () => {
   const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null);
   const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
   const [promptString, setPromptString] = useState<any>({});
+  const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(true);
 
   const onNodesChange = useCallback((changes: any) => {
     setNodes((nds) => applyNodeChanges(changes, nds));
@@ -126,12 +129,32 @@ const App: React.FC = () => {
     setIsPromptModalOpen(true);
   };
 
+  const handleCloseWalkthrough = () => {
+    setIsWalkthroughOpen(false);
+  };
+
+  const handleOpenWalkthrough = () => {
+    setIsWalkthroughOpen(true);
+  };
+
+  useEffect(() => {
+    const hasSeenWalkthrough = localStorage.getItem('hasSeenWalkthrough');
+    if (!hasSeenWalkthrough) {
+      setIsWalkthroughOpen(true);
+      localStorage.setItem('hasSeenWalkthrough', 'true');
+    }
+  }, []);
+
   return (
     <ChakraProvider>
       <PromptModal
         isOpen={isPromptModalOpen}
         onClose={() => setIsPromptModalOpen(false)}
         content={promptString}
+      />
+      <WalkthroughDialog
+        isOpen={isWalkthroughOpen}
+        onClose={handleCloseWalkthrough}
       />
       <Flex direction='column' height='100vh'>
         <TopPanel
@@ -162,6 +185,17 @@ const App: React.FC = () => {
             nodes={nodes}
           />
         </Flex>
+        <Button
+          position='fixed'
+          bottom='4'
+          right='4'
+          colorScheme='blue'
+          onClick={handleOpenWalkthrough}
+          leftIcon={<FaQuestion />}
+          style={{ zIndex: 100 }}
+        >
+          Help
+        </Button>
       </Flex>
     </ChakraProvider>
   );

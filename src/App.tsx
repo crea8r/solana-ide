@@ -29,7 +29,7 @@ const App: React.FC = () => {
   const [selectedEdge, setSelectedEdge] = useState<Edge | null>(null);
   const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
   const [promptString, setPromptString] = useState<any>({});
-  const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(true);
+  const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(false);
 
   const onNodesChange = useCallback((changes: any) => {
     setNodes((nds) => applyNodeChanges(changes, nds));

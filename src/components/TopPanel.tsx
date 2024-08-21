@@ -11,6 +11,7 @@ import {
   Avatar,
 } from '@chakra-ui/react';
 import { FaCog } from 'react-icons/fa';
+import { logEvent } from '../utils/analytics';
 
 interface TopPanelProps {
   generatePrompt: () => void;
@@ -50,7 +51,10 @@ const TopPanel: React.FC<TopPanelProps> = ({ generatePrompt }) => {
           style={{
             marginLeft: '10px',
           }}
-          onClick={() => generatePrompt()}
+          onClick={() => {
+            logEvent('Prompt', 'Generate', 'click');
+            generatePrompt();
+          }}
         >
           Prompt
         </Button>

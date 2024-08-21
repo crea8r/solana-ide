@@ -21,6 +21,9 @@ import { prompt } from './utils/promptFactory';
 import PromptModal from './components/PromptModal';
 import WalkthroughDialog from './components/WalkthroughDialog';
 import { FaQuestion } from 'react-icons/fa';
+import { initGA, logPageView } from './utils/analytics';
+
+const GA_MEASUREMENT_ID = 'G-L5P6STB24E';
 
 const App: React.FC = () => {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -30,6 +33,11 @@ const App: React.FC = () => {
   const [isPromptModalOpen, setIsPromptModalOpen] = useState(false);
   const [promptString, setPromptString] = useState<any>({});
   const [isWalkthroughOpen, setIsWalkthroughOpen] = useState(false);
+
+  useEffect(() => {
+    initGA(GA_MEASUREMENT_ID);
+    logPageView();
+  }, []);
 
   const onNodesChange = useCallback((changes: any) => {
     setNodes((nds) => applyNodeChanges(changes, nds));
